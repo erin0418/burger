@@ -1,13 +1,38 @@
-1. Inside your `burger` directory, create a folder named `views`.
+<h1>Let's Plan A Wedding!</h1>
 
-   * Create the `index.handlebars` file inside `views` directory.
+<h2>Checklist Items To Complete</h2>
 
-   * Create the `layouts` directory inside `views` directory.
+<ul>
+  {{#each items}}
+    {{#unless done}}
+      {{done=true}}
+    {{/unless}}
+  {{/each}}
+</ul>
 
-     * Create the `main.handlebars` file inside `layouts` directory.
+<h2>One less thing to worry about!</h2>
 
-     * Setup the `main.handlebars` file so it's able to be used by Handlebars.
+<ul>
+  {{#each items}}
+    {{#if done}}
+      {{done=false}}
+    {{/if}}
+  {{/each}}
+</ul>
 
-     * Setup the `index.handlebars` to have the template that Handlebars can render onto.
+<h2>Add Another Item to the List</h2>
+<form class="create-form">
 
-     * Create a button in `index.handlebars` that will submit the user input into the database.
+  <div class="form-group">
+    <label for="ca">Item Name:</label>
+    <input type="text" id="ca" name="name">
+  </div>
+
+  <div class="form-group">
+    <label for="slee">Done yet?</label><br>
+    <input type="radio" name="sleepy" value="1" checked> Done!<br>
+    <input type="radio" name="sleepy" value="0"> Not Yet
+  </div>
+
+  <button type="submit">Add Item</button>
+</form>
