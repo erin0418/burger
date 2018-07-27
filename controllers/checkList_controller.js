@@ -6,15 +6,19 @@ var router = express.Router();
 var item = require("../models/checkList.js");
 
 // Create all our routes and set up logic within those routes where required.
-router.get("/", function(req, res) {
-  item.all(function(data) {
-    var hbsObject = {
-      items: data
-    };
-    console.log(hbsObject);
-    res.render("index", hbsObject);
-  });
+router.get('/', function (req, res) {
+	item.all(function (data) {
+		console.log(data)
+		var hbsObject = { item: data };
+		res.render('index', hbsObject);
+	});
 });
+
+router.get("/api/items", function(req,res){
+  item.all(function(data) {
+    res.json(data);
+  })
+})
 
 router.post("/api/items", function(req, res) {
   item.create(["name", "done"], [req.body.name, req.body.done], function(result) {
