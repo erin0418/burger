@@ -1,27 +1,36 @@
-var connection = require("./connection.js");
+var connection = require("../config/connection.js");
 
+// Object for all our SQL statement functions.
 var orm = {
-    selectAll: function(listItem, tableName, statusRow, status) {
-      var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-      connection.query(queryString, [listItem, tableName, statusRow, status], function(err, result) {
-        if (err) throw err;
-        console.log(result);
-      });
-    },
-//     // insertOne: function(listItem, monthsDoGo, isDone) {
-//     //     var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-//     //     connection.query(queryString, [listItem, monthsDoGo, isDone], function(err, result) {
-//     //       if (err) throw err;
-//     //       console.log(result);
-//     //     });
-//     // },
-//     // updateOne: function(listItem, monthsDoGo, isDone) {
-//     //     var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-//     //     connection.query(queryString, [listItem, monthsDoGo, isDone], function(err, result) {
-//     //       if (err) throw err;
-//     //       console.log(result);
-//     //     });
-//     // }
-}
-  
-  module.exports = orm;
+  all: function(table, cb) {
+    var queryString = "SELECT * FROM ?;"
+    connection.query(queryString, {table}, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
+  create: function(table, columns, values, cb) {
+    var queryString = "INSERT INTO ? WHERE ? = ?";
+    connection.query(queryString, {table,columns,values}, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
+  // An example of objColVals would be {name: panther, sleepy: true}
+  update: function(table, columns, values, cb) {
+    var queryString = "UPDATE ? SET ? WHERE ?"; 
+    connection.query(queryString, {table,columns, values}, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  }
+};
+
+// Export the orm object for the model (cat.js).
+module.exports = orm;
